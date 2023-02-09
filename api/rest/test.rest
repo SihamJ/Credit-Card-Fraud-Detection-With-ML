@@ -1,0 +1,33 @@
+//@url=http://167.71.1.17:3040/api/users
+@url=http://127.0.0.1:5000/
+
+
+
+
+
+### 
+GET {{url}}/test/data1 HTTP/1.1
+Content-Type: application/json
+
+
+
+
+
+
+
+
+
+###  User 
+POST {{url}}/create HTTP/1.1
+content-type: application/json
+
+{  
+}
+
+
+
+### 
+GET {{url}}/test HTTP/1.1
+Content-Type: application/json
+X-Auth-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDI3YmZkOTA3NjJlYzFhZWYxYTM3ZmYiLCJ1c2VybmFtZSI6InNtYXJ0TEFkbWluIiwiaWF0IjoxNjI5MjA1NzM3LCJleHAiOjE2Mjk4MTA1Mzd9.349wpPZsFZduSxmr0LV1bz0q7kx-qtGyEH0DlyasD4c
+
