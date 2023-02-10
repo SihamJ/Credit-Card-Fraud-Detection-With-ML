@@ -6,7 +6,7 @@ import pickle
 import numpy as np # working with arrays
 import pandas as pd
 
-
+root = "/home/sihartist/Desktop/"
 
 app = Flask(__name__)
 api = Api(app)
@@ -14,7 +14,9 @@ api = Api(app)
 
 #http://127.0.0.1:5000/test/data1
 
-loaded_model = pickle.load(open("model.pkl","rb"))
+filename = root + "fraud-detection/algo/models/svm.pkl"
+
+loaded_model = pickle.load(open(filename,"rb"))
 
 def pred(data):
     test=[139,265803.35,0.00,0.00,751669.39,1017472.74, 0 , 1,0,0,0 ,0 ]
