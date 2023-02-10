@@ -21,7 +21,7 @@ def pred(data):
 
     loaded_model = pickle.load(open("model.pkl","rb"))
     result = loaded_model.predict(to_predict)
-    print(" TEST ",result[0])
+    print(" TEST",result[0])
 
     return result[0]
     
