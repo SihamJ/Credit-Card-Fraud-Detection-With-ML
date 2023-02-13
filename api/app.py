@@ -6,7 +6,16 @@ import pickle
 import numpy as np # working with arrays
 import pandas as pd
 
+global filename
+global algo
+
 root = "/home/sihartist/Desktop/"
+svm = "fraud-detection/algo/models/svm.pkl"
+rf = "fraud-detection/api/model.pkl"
+cnn = "fraud-detection/algo/models/cnn.pkl"
+
+filename = root + cnn
+algo = 'CNN'
 
 app = Flask(__name__)
 api = Api(app)
@@ -14,7 +23,21 @@ api = Api(app)
 
 #http://127.0.0.1:5000/test/data1
 
-filename = root + "fraud-detection/algo/models/svm.pkl"
+
+def choose_algo(name):
+    global filename
+    global algo
+    algo = name
+    if name == 'CNN':
+        filename = root + cnn
+    elif name =='Random Forest':
+        filename = root + rf
+    elif name=='SVM':
+        filename = root + svm
+    else:
+        filename = root + rf
+        algo = 'Random Forest'
+
 
 loaded_model = pickle.load(open(filename,"rb"))
 
@@ -38,14 +61,16 @@ class Search(Resource):
             return jsonify(
                 {
                     'result':True,
-                    'msg':"Yes, A fraud is detected !!"
+                    'msg':"Yes, A fraud is detected !!",
+                    'algo': algo
                 }
             )
         else:
           return jsonify(
                 {
                     'result':False,
-                    'msg':"NO fraud detected !!"
+                    'msg':"NO fraud detected !!",
+                    'algo': algo
                 }
             )
 
@@ -55,6 +80,8 @@ api.add_resource(Search, '/test/<string:data>')
 
 
 if __name__ == '__main__':
+    
+    choose_algo('RF')
     app.run(debug=True)
 
 
