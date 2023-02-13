@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 algo/dataset/data_creditcard.csv
+algo/dataset/PS_20174392719_1491204439457_log.csv
 
 # C extensions
 *.so
