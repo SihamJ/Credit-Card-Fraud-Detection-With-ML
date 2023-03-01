@@ -6,7 +6,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-algo/dataset/data_creditcard.csv
+dataset/*
 
 # C extensions
 *.so
