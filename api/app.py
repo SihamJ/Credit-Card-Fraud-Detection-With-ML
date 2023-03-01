@@ -80,7 +80,7 @@ api.add_resource(Search, '/test/<string:data>')
 
 
 if __name__ == '__main__':
-    
+    # 'CNN' , 'RF', 'SVM'
     choose_algo('RF')
     app.run(debug=True)
 
