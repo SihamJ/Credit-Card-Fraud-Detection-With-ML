@@ -21,8 +21,8 @@ V13  IN (''5921'')
 V10 > 5000
 """
 def rule2(df, index, maxV10):
-    df.at[index, 'V4'] =  "000010"
-    df.at[index, 'V13'] = "5921"
+    df.at[index, 'V4'] =  '000010'
+    df.at[index, 'V13'] = '5921'
     df.at[index, 'V10'] = str(np.random.uniform(5000.01, maxV10))
 
 
@@ -35,8 +35,8 @@ V10 >= 2000
 """
 def rule3(df, index, maxV10):
     df.at[index, 'V4'] =  '000010'
-    df.at[index, 'V13'] = "5921"
-    df.at[index, 'V21'] = "549038"
+    df.at[index, 'V13'] = '5921'
+    df.at[index, 'V21'] = '549038'
     df.at[index, 'V10'] = str(np.random.uniform(2000.0, maxV10))
 
 
@@ -48,8 +48,8 @@ V13  NOT IN (''5311'',''7011'')
 V10 >= 100000
 """
 def rule4(df, index, maxV10):
-    df.at[index, 'V4'] =  "'000010'"
-    df.at[index, 'V1'] = "20"
+    df.at[index, 'V4'] =  '000010'
+    df.at[index, 'V1'] = '20'
     df.at[index, 'V13'] = random_string_not_in(['5311', '7011'])
     df.at[index, 'V10'] = str(np.random.uniform(100000, maxV10))
 
@@ -61,7 +61,7 @@ V13  IN (''3017'',''3223'',''4511'',''4722'',''7011'',''7512'') ;
 (V16,7,1)   NOT IN  (''5'')
 """
 def rule5(df, index, maxV10=None):
-    df.at[index, 'V4'] =  "000010"
+    df.at[index, 'V4'] =  '000010'
     df.at[index, 'V13'] = np.random.choice(['3017', '3223', '4511', '4722', '7011', '7512'])
     df.at[index, 'V16'] = df.at[index, 'V16'][:6] + str(random_not_in([5], 9)) + df.at[index, 'V16'][7:]
 
@@ -99,7 +99,7 @@ SUBSTR(:X(1).V16,7,1) IN (''9'',''S'',''T'',''U'',''V'')
 """
 def rule8(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
-    df.at[index, 'V1'] = "00"
+    df.at[index, 'V1'] = '00'
     df.at[index, 'V10'] = str(np.random.uniform(60000.0, maxV10))
     df.at[index, 'V16'] = str(df.at[index, 'V16'][:6] + np.random.choice(['9','S','T','U','V']) + df.at[index, 'V16'][7:])
 
@@ -120,9 +120,9 @@ V26 IN (''360'')
 V21 IN (''VISPOS01'')
 """
 def rule10(df, index, maxV10=None):
-    df.at[index, 'V4'] = "000010"
-    df.at[index, 'V26'] = "360"
-    df.at[index, 'V21'] = "VISPOS01"
+    df.at[index, 'V4'] = '000010'
+    df.at[index, 'V26'] = '360'
+    df.at[index, 'V21'] = 'VISPOS01'
 
 """
 V4 = ''000010''
@@ -131,10 +131,10 @@ V26 IN (''360'')
 V15 IN (''902'')
 """
 def rule11(df, index, maxV10=None):
-    df.at[index, 'V4'] = "000010"
+    df.at[index, 'V4'] = '000010'
     df.at[index, 'V1'] = np.random.choice(['01', '17'])
-    df.at[index, 'V26'] = "360"
-    df.at[index, 'V15'] = "902"
+    df.at[index, 'V26'] = '360'
+    df.at[index, 'V15'] = '902'
 
 
 """
@@ -143,7 +143,7 @@ V10 >= 18000
 (V16,7,1)  IN  (''5'')
 """
 def rule12(df, index, maxV10):
-    df.at[index, 'V4'] = "000010"
+    df.at[index, 'V4'] = '000010'
     df.at[index, 'V10'] = str(np.random.uniform(18000.0, maxV10))
     df.at[index, 'V16'] = str(df.at[index, 'V16'][:6] + '5' + df.at[index, 'V16'][7:])
 
@@ -155,7 +155,7 @@ V13  NOT IN (''5331'',''7011'')
 V10 >= 10000
 """
 def rule13(df, index, maxV10):
-    df.at[index, 'V4'] = "000010"
+    df.at[index, 'V4'] = '000010'
     df.at[index, 'V1'] = '20'
     df.at[index, 'V13'] = random_string_not_in(['5331','7011'])
     df.at[index, 'V10'] = str(np.random.uniform(10000.0, maxV10))

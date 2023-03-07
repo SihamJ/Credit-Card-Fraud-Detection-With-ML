@@ -49,6 +49,7 @@ print(cl('\nSaving non fraud file separately...'))
 df_non_fraud.to_excel(root + 'non_fraud_data.xlsx', index=False)
 
 ## temporary
+print(cl('\nTreating fraud dataset...'))
 df_fraud.to_excel(root + 'temp.xlsx', index=False)
 
 ## Re-reading the file is necessary to avoid some bugs
