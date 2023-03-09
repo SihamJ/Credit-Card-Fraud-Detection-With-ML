@@ -20,7 +20,7 @@ POST Json example:
 {"algo": "RF", "transaction": [139, 265803.35, 0.00, 0.00, 751669.39, 1017472.74, 0, 1, 0, 0, 0, 0 ]}
 
 """
-@app.route("/data",  methods = ['POST'])
+@app.route("/predict",  methods = ['POST'])
 def pred():
 
     try:
@@ -28,7 +28,7 @@ def pred():
     except:
         return jsonify(
             {
-                'result' : -1,
+                'isFraud' : -1,
                 'message' : 'Failed to load Json. Please make sure the format is correct.'
             }
         )
@@ -38,7 +38,7 @@ def pred():
     except:
         return jsonify(
             {
-                'result' : -1,
+                'isFraud' : -1,
                 'message' : 'Model ' + content['algo'] + 'unavailable. Please choose one of the following: ' + algorithms.keys()
             }
         )
@@ -48,7 +48,7 @@ def pred():
     except:
         return jsonify(
             {
-                'result' : -1,
+                'isFraud' : -1,
                 'message' : 'Please provide transaction data.'
             }
         )
@@ -59,14 +59,14 @@ def pred():
     except:
         return jsonify(
             {
-                'result' : -1,
+                'isFraud' : -1,
                 'message' : 'Failed to predict result, please make sure the data is in the correct format (Float array, length of 12).'
             }
         )
     
     return jsonify(
         {
-            'result': int(res),
+            'isFraud': int(res),
             'message':"Predicted with " + names[content['algo']]
         }
     )
