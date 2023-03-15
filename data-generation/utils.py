@@ -32,3 +32,9 @@ def random_string_not_in(l):
     while(res in l):
         res = ''.join(random.choices(string.digits, k = S))    
     return res
+
+def random_letter_not_in(l):
+    res = l[0]
+    while(res in l):
+        res = random.choices(string.ascii_uppercase, k = 1)   
+    return res
