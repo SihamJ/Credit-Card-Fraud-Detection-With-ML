@@ -4,16 +4,9 @@
 
 
 
-
 ### 
-GET {{url}}/test/data1 HTTP/1.1
+GET {{url}}/test/data1/DT HTTP/1.1
 Content-Type: application/json
-
-
-
-
-
-
 
 
 

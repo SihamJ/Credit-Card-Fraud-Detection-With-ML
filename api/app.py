@@ -1,7 +1,6 @@
 from flask import Flask,jsonify
 from flask_restful import Resource, Api
 import pandas as pd
-import joblib
 import pickle
 import numpy as np # working with arrays
 import pandas as pd
@@ -61,11 +60,7 @@ api.add_resource(Search, '/test/<string:data>/<string:algo>')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-
-
-
+    app.run(host="0.0.0.0")
 
 
 
