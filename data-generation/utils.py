@@ -37,4 +37,4 @@ def random_letter_not_in(l):
     res = l[0]
     while(res in l):
         res = random.choices(string.ascii_uppercase, k = 1)   
-    return res
+    return res[0]

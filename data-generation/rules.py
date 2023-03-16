@@ -403,7 +403,7 @@ V1 IN '01'
 V26 NOT IN '324','360'    
 V10 > 0  
 """
-def rule35(df, index, maxV10=None):
+def rule35(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V1'] = '01'
     df.at[index, 'V26'] = random_string_not_in(['324', '360'])
@@ -414,7 +414,7 @@ R27
 V4 = '000010'    
 V10 >= 1  
 """
-def rule36(df, index, maxV10=None):
+def rule36(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V10'] = np.random.uniform(1, maxV10)
 
@@ -423,7 +423,7 @@ R28
 V4 = '000010'    
 V10 > 200     
 """
-def rule37(df, index, maxV10=None):
+def rule37(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V10'] = np.random.uniform(200.01, maxV10)
 
@@ -443,7 +443,7 @@ V1 IN ('36')
 V26 NOT IN ('324','360') 
 V10 > 0 
 """
-def rule39(df, index, maxV10=None):
+def rule39(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V1'] = '36'
     df.at[index, 'V26'] = random_string_not_in(['324', '360'])
@@ -466,7 +466,7 @@ def rule40(df, index, maxV10=None):
 V4 = '000010'  
 V10 > 100   
 """
-def rule41(df, index, maxV10=None):
+def rule41(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V10'] = np.random.uniform(100.01, maxV10)
 
@@ -474,7 +474,7 @@ def rule41(df, index, maxV10=None):
 V4 = '000010'  
 V10 < 250 
 """
-def rule42(df, index, maxV10=None):
+def rule42(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V10'] = np.random.uniform(250.01, maxV10)
 
@@ -507,7 +507,7 @@ V10 > 300
 SUBSTR(:X(1).V16,7,1)   NOT IN  ('T')  
 V15 NOT LIKE '02%' 
 """
-def rule45(df, index, maxV10=None):
+def rule45(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V26'] = '300'
     df.at[index, 'V13'] = random_string_not_in(['4582','4814','4900','5968','6300','8011','8021','8031','8041','8042','8043','8049','8050',
@@ -540,7 +540,7 @@ V4 = '000010'
 V13  IN ('6012','7995') 
 V10 > 1500 
 """
-def rule48(df, index, maxV10=None):
+def rule48(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V13'] = np.random.choice(['6012', '7995'])
     df.at[index, 'V10'] = np.random.uniform(1500.01, maxV10)
@@ -550,7 +550,7 @@ V4 = '000010'
 V13  IN ('5542') 
 V10 > 500 
 """
-def rule49(df, index, maxV10=None):
+def rule49(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V13'] = '5542'
     df.at[index, 'V10'] = np.random.uniform(500.01, maxV10)
@@ -595,7 +595,7 @@ def rule53(df, index, maxV10=None):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V26'] = '012'
     df.at[index, 'V10'] = 555
-    df.at['V25'] = '978'
+    df.at[index, 'V25'] = '978'
 
 """
 V12 = '000005'  
@@ -625,7 +625,10 @@ V15 NOT LIKE '05%' AND  V15 NOT LIKE '07%' AND  V15 NOT LIKE '17%'
 def rule55(df, index, maxV10=None):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V13'] = random_string_not_in(['4582','4814','4900','5968','6011','6300','8011','8021','8031','8041','8042','8043','8049','8050','8062','8071','8099','8211','8220','8241','8244','8249','8299','9311'])
-    df.at[index, 'V27'] = np.random.choice['VERSUS BANK ZONE 4     REGION LAGUNECI', 'VERSUS BANK PLATEAU    REGION LAGUNECI', 'VERSUS BANK 2 PLATEAUX REGION LAGUNECI', 'VERSUS BANK ABIDJAN    REGION LAGUNECI', 'RES BERT                >VALLON       CI', 'RESIDENCE MADE          >ABIDJAN      CI']
+    df.at[index, 'V27'] = np.random.choice(['VERSUS BANK ZONE 4     REGION LAGUNECI', 
+                                            'VERSUS BANK PLATEAU    REGION LAGUNECI', 'VERSUS BANK 2 PLATEAUX REGION LAGUNECI', 
+                                            'VERSUS BANK ABIDJAN    REGION LAGUNECI', 
+                                            'RES BERT                >VALLON       CI', 'RESIDENCE MADE          >ABIDJAN      CI'])
     df.at[index, 'V10'] = np.random.uniform(0.01, 4.99)
     df.at[index, 'V16'] = str(df.at[index, 'V16'][:5] + '0' + df.at[index, 'V16'][6:])
     df.at[index, 'V16'] = str(df.at[index, 'V16'][:6] + random_letter_not_in(['T']) + df.at[index, 'V16'][7:])
@@ -652,7 +655,7 @@ ISSUING_BANK(V4)  = '000010'
 CARD_ACCEPTOR_ACTIVITY(V13)  IN ('4829','6012','6050','6051','6540')
 LOCAL_AMOUNT(V9 or V10) > 250 
 """
-def rule57(df, index, maxV10=None):
+def rule57(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V13'] = np.random.choice(['4829','6012','6050','6051','6540'])
     df.at[index, 'V10'] = np.random.uniform(250.01, maxV10)
@@ -686,7 +689,7 @@ def rule60(df, index, maxV10=None):
  PROCESSING_CODE(V1) IN ('01') 
  LOCAL_AMOUNT(V9 or V10) > 110 
 """
-def rule61(df, index, maxV10=None):
+def rule61(df, index, maxV10):
     df.at[index, 'V4'] = '000010'
     df.at[index, 'V1'] = '01'
     df.at[index, 'V10'] = np.random.uniform(110.01, maxV10)
@@ -696,7 +699,7 @@ def rule61(df, index, maxV10=None):
  PROCESSING_CODE(V1) IN ('01')
  LOCAL_AMOUNT(V9 or V10) > 100 
 """
-def rule62(df, index, maxV10=None):
+def rule62(df, index, maxV10):
     df.at[index, 'V4'] = '000010' 
     df.at[index, 'V1'] = '01'
     df.at[index, 'V10'] = np.random.uniform(100.01, maxV10)
@@ -706,7 +709,7 @@ ISSUING_BANK(V4)  = '000010'
 CARD_ACCEPTOR_ACTIVITY(V13)  IN ('7995') 
 LOCAL_AMOUNT(V9 or V10) > 5
 """
-def rule63(df, index, maxV10=None):
+def rule63(df, index, maxV10):
     df.at[index, 'V4'] = '000010' 
     df.at[index, 'V13'] = '7995'
     df.at[index, 'V10'] = np.random.uniform(5.01, maxV10)
@@ -716,15 +719,13 @@ def make_fraud(df, maxV10):
 
     new_df = pd.DataFrame.copy(df)
 
-    rules = [rule1, rule2, rule3, rule4, rule5, rule6, rule7, 
-             rule8, rule9, rule10, rule11, rule12, rule13, rule14, 
-             rule15, rule16, rule17, rule18, rule19, rule20,
-             rule21, rule22, rule23, rule24, rule25, rule26, rule27, 
-             rule28, rule29, rule30, rule31, rule32, rule33, rule34, 
-             rule35, rule36, rule37, rule38, rule39, rule40, rule41,
-             rule42, rule43, rule44, rule45, rule46, rule47, rule48, rule49, 
-             rule50, rule51, rule52, rule53, rule54, rule55, rule56, rule57, rule58, rule59,
-             rule60, rule61, rule62, rule63]
+    rules = [ rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9, rule10, 
+             rule11, rule12, rule13, rule14, rule15, rule16, rule17, rule18, rule19, 
+             rule20, rule21, rule22, rule23, rule24, rule25, rule26, rule27, rule28, 
+             rule29, rule30, rule31, rule32, rule33, rule34, rule35, rule36, rule37, 
+             rule38, rule39, rule40, rule41, rule42, rule43, rule44, rule45, rule46, 
+             rule47, rule48, rule49, rule50, rule51, rule52, rule53, rule54, rule55, 
+             rule56, rule57, rule58, rule59, rule60, rule61, rule62, rule63 ]
     
     for index in range(len(df)):
         
