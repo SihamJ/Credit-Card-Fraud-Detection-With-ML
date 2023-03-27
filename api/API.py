@@ -17,9 +17,21 @@ api = Api(app)
 """
 POST Json example:
 
-{"algo": "RF", "transaction": [139, 265803.35, 0.00, 0.00, 751669.39, 1017472.74, 0, 1, 0, 0, 0, 0 ]}
+raw:
+{"algo": "RF", "transaction": [31, 281, 22, 010112, 500, 01/05/2009, 01/05/2011, 02/07/2009 21:21:42, 010112, 6011, 21140121124C, 6, 071181, 0,
+ 01000002, 01000002, 26/12/2009, 952, 384, VERSUS BANK 2 PLATEAUX REGION LAGUNECI ]}
+
+clean:
+{"algo": "RF", "transaction": [4,	2,	23,	1,	285328,	33443,	19,	2976,	44,	20238,	3,	1,	573908,	1,	384,	4,	-0.52504918247254,	-0.93775213214708,	
+0.20129852008866,	0.980307111357288,	0.20129852008866,	0.980307111357288,	-0.52504918247254,	-0.93775213214708,	2009,	2009,	2009,	2009]}
+
 
 """
+
+def preprocess(row):
+
+
+
 @app.route("/predict",  methods = ['POST'])
 def pred():
 
@@ -54,13 +66,13 @@ def pred():
         )
     
     try:
-        to_predict = np.array(transaction).reshape(1,12)
+        to_predict = np.array(transaction).reshape(1,27)
         res = model.predict(to_predict)
     except:
         return jsonify(
             {
                 'isFraud' : -1,
-                'message' : 'Failed to predict result, please make sure the data is in the correct format (Float array, length of 12).'
+                'message' : 'Failed to predict result, please make sure the data is in the correct format (Float array, length of 27).'
             }
         )
     
