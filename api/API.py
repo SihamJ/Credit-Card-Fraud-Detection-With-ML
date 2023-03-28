@@ -8,6 +8,19 @@ from utils import *
 # Load models
 algorithms, names = load_models()
 
+# Load scaler and encoder
+root = "/home/sihartist/Desktop/"
+encoder_path = "fraud-detection/preprocessing/dict_all.obj"
+scalerfile = 'fraud-detection/preprocessing/scaler.sav'
+
+# loading scaler
+min_max_scaler = pickle.load(open(root + scalerfile, 'rb'))
+
+# loading encoder dictionary
+file = open(root + encoder_path,'rb')
+dict_encoder = pickle.load(file)
+file.close()
+
 
 ## API
 app = Flask(__name__)
@@ -17,21 +30,9 @@ api = Api(app)
 """
 POST Json example:
 
-raw:
-{"algo": "RF", "transaction": [31, 281, 22, 010112, 500, 01/05/2009, 01/05/2011, 02/07/2009 21:21:42, 010112, 6011, 21140121124C, 6, 071181, 0,
- 01000002, 01000002, 26/12/2009, 952, 384, VERSUS BANK 2 PLATEAUX REGION LAGUNECI ]}
-
-clean:
-{"algo": "RF", "transaction": [4,	2,	23,	1,	285328,	33443,	19,	2976,	44,	20238,	3,	1,	573908,	1,	384,	4,	-0.52504918247254,	-0.93775213214708,	
-0.20129852008866,	0.980307111357288,	0.20129852008866,	0.980307111357288,	-0.52504918247254,	-0.93775213214708,	2009,	2009,	2009,	2009]}
 
 
 """
-
-def preprocess(row):
-
-
-
 @app.route("/predict",  methods = ['POST'])
 def pred():
 
@@ -56,7 +57,8 @@ def pred():
         )
 
     try:
-        transaction = content['transaction']
+        transaction = json.loads(content['transaction'])
+        transaction = pd.Series(dict(transaction))
     except:
         return jsonify(
             {
@@ -64,21 +66,31 @@ def pred():
                 'message' : 'Please provide transaction data.'
             }
         )
-    
+        
     try:
-        to_predict = np.array(transaction).reshape(1,27)
-        res = model.predict(to_predict)
+        prep = content['preprocess']
+        if(prep):
+            transaction = preprocess(transaction, min_max_scaler, dict_encoder)
     except:
         return jsonify(
             {
                 'isFraud' : -1,
-                'message' : 'Failed to predict result, please make sure the data is in the correct format (Float array, length of 27).'
+                'message' : 'Failed to preprocess data. Please verify data format is correct.'
+            }
+        )
+    try:
+        res = model.predict(transaction)
+    except:
+        return jsonify(
+            {
+                'isFraud' : -1,
+                'message' : 'Failed to predict result, please make sure the data is in the correct format.'
             }
         )
     
     return jsonify(
         {
-            'isFraud': int(res),
+            'isFraud': int(res[0]),
             'message':"Predicted with " + names[content['algo']]
         }
     )

@@ -2,18 +2,19 @@ import pickle
 import tensorflow as tf
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler
 import math
+import json
+from pypmml import Model
 
 def load_models():
 
     root = "/home/sihartist/Desktop/"
     
-    svm = "fraud-detection/models/svm.pkl"
+    svm = "fraud-detection/models/svm.pmml"
     rf = "fraud-detection/models/R_forest.pkl"
     cnn = "fraud-detection/models/cnn.h5"
 
-    SVM = pickle.load(open(root + svm,"rb"))
+    SVM = Model.load(root + svm)
     RF = pickle.load(open(root + rf,"rb"))
     CNN = tf.keras.models.load_model(root + cnn)
 
@@ -26,23 +27,11 @@ def load_models():
 """
 Row should be a dictionary
 """
-def preprocess(row):
+def preprocess(row, min_max_scaler, dict_encoder):
 
-    root = "/home/sihartist/Desktop/"
-    
-    encoder_path = "fraud-detection/preprocessing/dict_all.obj"
-    scalerfile = 'fraud-detection/preprocessing/scaler.sav'
-
-    # loading scaler
-    min_max_scaler = pickle.load(open(root + scalerfile, 'rb'))
-
-    # loading encoder dictionary
-    file = open(root + encoder_path,'rb')
-    dict_encoder = pickle.load(file)
-    file.close()
 
     # treating nan values
-    row.drop(['V11','V14','V20','V5','V17','V18','V15', 'CLASS'], inplace=True)
+    row.drop(['V11','V14','V20','V5','V17','V18','V15'], inplace=True)
 
     # updating types
     row['V10'] = float(row['V10'])
