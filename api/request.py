@@ -38,6 +38,7 @@ preprocessed_data = dict(preprocessed_data)
 preprocessed_json_data = json.dumps(preprocessed_data, indent=4)
 
 
+# test with preprocessing
 t = time.time()
 response = requests.post('http://127.0.0.1:5000/predict', json={"algo": algo, "transaction": raw_json_data, "preprocess":True})
 t = time.time() - t
@@ -46,6 +47,8 @@ print("\nPython time (with preprocessing): " + str(round(t,2)) + " s")
 message = json.loads(response.content.decode('utf-8'))
 print(message)
 
+
+# test without preprocessing
 t = time.time()
 response = requests.post('http://127.0.0.1:5000/predict', json={"algo": algo, "transaction": preprocessed_json_data, "preprocess":False})
 t = time.time() - t

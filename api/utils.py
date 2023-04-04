@@ -3,8 +3,8 @@ import tensorflow as tf
 import pandas as pd
 import numpy as np
 import math
-import json
 from pypmml import Model
+
 
 def load_models():
 
@@ -24,8 +24,25 @@ def load_models():
     return algorithms, names
 
 
+def load_preprocess():
+    # Load scaler and encoder
+    root = "/home/sihartist/Desktop/"
+    encoder_path = "fraud-detection/preprocessing/dict_all.obj"
+    scalerfile = 'fraud-detection/preprocessing/scaler.sav'
+
+    # loading scaler
+    min_max_scaler = pickle.load(open(root + scalerfile, 'rb'))
+
+    # loading encoder dictionary
+    file = open(root + encoder_path,'rb')
+    dict_encoder = pickle.load(file)
+    file.close()
+
+    return min_max_scaler, dict_encoder
+
+
 """
-Row should be a dictionary
+Row should be a Pandas Series
 """
 def preprocess(row, min_max_scaler, dict_encoder):
 

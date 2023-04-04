@@ -4,22 +4,13 @@ import pickle
 import numpy as np # working with arrays
 import pandas as pd
 from utils import *
+import json
 
 # Load models
 algorithms, names = load_models()
 
-# Load scaler and encoder
-root = "/home/sihartist/Desktop/"
-encoder_path = "fraud-detection/preprocessing/dict_all.obj"
-scalerfile = 'fraud-detection/preprocessing/scaler.sav'
-
-# loading scaler
-min_max_scaler = pickle.load(open(root + scalerfile, 'rb'))
-
-# loading encoder dictionary
-file = open(root + encoder_path,'rb')
-dict_encoder = pickle.load(file)
-file.close()
+# Load scaler and label encoder
+min_max_scaler, dict_encoder = load_preprocess()
 
 
 ## API
