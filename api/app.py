@@ -5,7 +5,7 @@ import pickle
 import numpy as np # working with arrays
 import pandas as pd
 from flask import request
-
+import requests
 
 app = Flask(__name__)
 api = Api(app)
@@ -20,47 +20,59 @@ tree_model = pickle.load(open("models/D_Tree.pkl","rb"))
 rf_model = pickle.load(open("models/R_forest.pkl","rb"))
 
 
-def pred(data,algo):
+def predict(data,algo):
     test_data=[  4,  2,  23,  1,  410878,  715848.0,  19,  2976,  44,  20339,  3,  1,  621524,  1,  
                 384,  4,  0.654861,  0.654861, -1.0, -0.5,  0.959493, -0.978148,  2009,  2011,  2009,  2009 
            ]
-    to_predict = np.array(test_data).reshape(1,26)
-
-    result = rf_model.predict(to_predict)
-    print(" TEST ",result[0])
+    if(len(data)!=26):
+        print("n",len(data))
+        return -1
     
+    to_predict = np.array(data).reshape(1,26)
+    result = rf_model.predict(to_predict)
     return result[0]
     
+def send_msg(pred,res):
+    res['RESULTID']= "ProceedWithSuccess"                 
+    res['ERRORCODE']= "00000"              
+    res['ERRORDESC']= "PROCESSED_SUCCESSFULLY"
+    if(pred==1):           
+        res['IS_FRAUD']= True
+    elif(pred==0):          
+        res['IS_FRAUD']= False
+
+    return res
 
 class Search(Resource):
 
-    def get(self, data,algo):
-        data = request.json 
-        print("hi",data)
-        res=pred(data,algo)
+    def get(self,algo):
+        response = {
+            'KEYVALUES': "",               
+            'RQUID': "",                     
+            'RESULTID': "",                 
+            'ERRORCODE': "",                  
+            'ERRORDESC': "",               
+            'IS_FRAUD': False
+        }  
+        try:
+            body = request.json 
+            data=body["data"]
+            prediction_result=predict(data,algo)
+            response=send_msg(prediction_result,response)
+            return response
+        
+        except Exception as e:
+            response['RESULTID']= "SystemError"                 
+            response['ERRORCODE']= "00001"              
+            response['ERRORDESC']= "SYSTEM_ERROR"
 
-        if res==1:
-            return jsonify(
-                {
-                    'result':True,
-                    'msg':"Yes, A fraud is detected !!"
-                }
-            )
-        else:
-          return jsonify(
-                {
-                    'result':False,
-                    'msg':"NO fraud detected !!"
-                }
-            )
-
-
-
-api.add_resource(Search, '/test/<string:data>/<string:algo>')
-
+            return response
+        
+       
+api.add_resource(Search, '/test/<string:algo>')
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0")
+    app.run(debug=True, port=5000, host="0.0.0.0")
 
 
 
