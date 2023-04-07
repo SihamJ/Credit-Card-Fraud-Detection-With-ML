@@ -32,10 +32,11 @@ def predict(data,algo):
     result = rf_model.predict(to_predict)
     return result[0]
     
-def send_msg(pred,res):
+def send_response(pred,res):
     res['RESULTID']= "ProceedWithSuccess"                 
     res['ERRORCODE']= "00000"              
     res['ERRORDESC']= "PROCESSED_SUCCESSFULLY"
+
     if(pred==1):           
         res['IS_FRAUD']= True
     elif(pred==0):          
@@ -51,23 +52,24 @@ class Search(Resource):
             'RQUID': "",                     
             'RESULTID': "",                 
             'ERRORCODE': "",                  
-            'ERRORDESC': "",               
-            'IS_FRAUD': False
+            'ERRORDESC': ""            
+            #'IS_FRAUD': False
         }  
+       
         try:
             body = request.json 
             data=body["data"]
             prediction_result=predict(data,algo)
-            response=send_msg(prediction_result,response)
+            response=send_response(prediction_result,response)
             return response
         
         except Exception as e:
             response['RESULTID']= "SystemError"                 
             response['ERRORCODE']= "00001"              
             response['ERRORDESC']= "SYSTEM_ERROR"
-
             return response
         
+  
        
 api.add_resource(Search, '/test/<string:algo>')
 
