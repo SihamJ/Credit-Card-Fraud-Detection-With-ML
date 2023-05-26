@@ -28,7 +28,7 @@ def load_preprocess():
     # Load scaler and encoder
     root = "/home/sihartist/Desktop/"
     encoder_path = "fraud-detection/preprocessing/dict_all.obj"
-    scalerfile = 'fraud-detection/preprocessing/scaler.sav'
+    scalerfile = "fraud-detection/preprocessing/scaler.sav"
 
     # loading scaler
     min_max_scaler = pickle.load(open(root + scalerfile, 'rb'))

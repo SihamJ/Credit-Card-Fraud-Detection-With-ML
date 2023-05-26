@@ -6,37 +6,37 @@ import pickle
 import pandas as pd
 from utils import *
 
-if(not len(sys.argv) == 2 or sys.argv[1] not in {'CNN', 'SVM', 'RF'}):
-    print("\nUsage: python request.py [SVM|CNN|RF]\n")
+if(len(sys.argv) < 2 ):
+    print("\nUsage: python request.py [SVM|CNN|RF]+\n")
     exit(1)
 
-algo = sys.argv[1]
+algos = sys.argv[1:]
 
 ## PYTHON API
 # Load scaler and encoder
 root = "/home/sihartist/Desktop/"
 encoder_path = "fraud-detection/preprocessing/dict_all.obj"
-scalerfile = 'fraud-detection/preprocessing/scaler.sav'
+# scalerfile = 'fraud-detection/preprocessing/scaler.sav'
 
 # loading scaler
-min_max_scaler = pickle.load(open(root + scalerfile, 'rb'))
+# min_max_scaler = pickle.load(open(root + scalerfile, 'rb'))
 
 # loading encoder dictionary
-file = open(root + encoder_path,'rb')
-dict_encoder = pickle.load(file)
-file.close()
+# file = open(root + encoder_path,'rb')
+# dict_encoder = pickle.load(file)
+# file.close()
 
 
 # Raw data for test (don't forget to set preprocess to True)
-raw_data = pickle.load(open("/home/sihartist/Desktop/fraud-detection/dataset/row.obj", "rb"))
+raw_data = pd.read_json("/home/sihartist/Desktop/fraud-detection/dataset/clean_row.json",orient='index', dtype=str)
 raw_data = raw_data.drop('CLASS')
-dict_data = dict(raw_data)
+dict_data = raw_data.to_dict()
 raw_json_data = json.dumps(dict_data, indent=4)
 
 # Preprocessed Data for test
-preprocessed_data = pickle.load(open("/home/sihartist/Desktop/fraud-detection/dataset/new_row.obj", "rb"))
-preprocessed_data = dict(preprocessed_data)
-preprocessed_json_data = json.dumps(preprocessed_data, indent=4)
+# preprocessed_data = pickle.load(open("/home/sihartist/Desktop/fraud-detection/dataset/new_row.obj", "rb"))
+# preprocessed_data = dict(preprocessed_data)
+# preprocessed_json_data = json.dumps(preprocessed_data, indent=4)
 
 
 # test with preprocessing
@@ -61,13 +61,16 @@ preprocessed_json_data = json.dumps(preprocessed_data, indent=4)
 
 
 # JAVA API
-t = time.time()
-for i in range(1):
-    response = requests.post('http://127.0.0.1:8080/predict', json={ "algo": algo, "transaction": list(preprocessed_data.values()) })
-t = time.time() - t
 
-print("\nJAVA time: " + str(round(t,2)) + " s")
+print("\n")
+for i in range(len(algos)):
 
-message = json.loads(response.content.decode('utf-8'))
-print(message)
+    t = time.time()
+    response = requests.post('http://127.0.0.1:8080/predict', json={ "algo": algos[i], "transaction": dict_data[0] })
+
+    message = json.loads(response.content.decode('utf-8'))
+    print(message)
+
+    t = time.time() - t
+    print("JAVA time: " + str(round(t,2)) + " s\n")
 
